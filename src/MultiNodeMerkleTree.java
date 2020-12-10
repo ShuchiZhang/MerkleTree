@@ -9,12 +9,14 @@ public class MultiNodeMerkleTree {
     List<String> transactionRecords;
     String root;
 
+    // Define the number of children for each node
     public MultiNodeMerkleTree(int numberOfChildren, List<String> txList) {
         this.numberOfChildren = numberOfChildren;
         this.transactionRecords = txList;
         root = "";
     }
 
+    // Construct the tree using recursive function till only one root node
     public void constructTree() {
 
         List<String> hashValueList = calculateHashValue(transactionRecords);
@@ -26,23 +28,19 @@ public class MultiNodeMerkleTree {
         this.root = hashValueList.get(0);
     }
 
+    // Calculate the hash value for each node which is determined by their children
     private List<String> calculateHashValue(List<String> transacrions) {
         List<String> hashValueList = new ArrayList<String>();
         int index = 0;
         int nodes = 0;
         while (index < transacrions.size()) {
             String value = "";
+            // Each node should have numberOFChildren children
             while((index != transacrions.size()) && (nodes < numberOfChildren)){
                 value = value + transacrions.get(index);
                 nodes++;
                 index++;
             }
-//            String left = transacrions.get(index);
-//            index++;
-//            String right = "";
-//            if (index != transacrions.size()) {
-//                right = transacrions.get(index);
-//            }
             String sha2HexValue = getSHA2HexValue(value);
             hashValueList.add(sha2HexValue);
             nodes = 0;
@@ -50,6 +48,7 @@ public class MultiNodeMerkleTree {
         return hashValueList;
     }
 
+    // Get the SHA-256 value for a string
     public String getSHA2HexValue(String str) {
         byte[] cipher_byte;
         try{

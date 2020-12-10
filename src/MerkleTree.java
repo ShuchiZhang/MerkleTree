@@ -12,7 +12,7 @@ public class MerkleTree {
         root = "";
     }
 
-
+    // Construct the tree using recursive function till only one root node
     public void constructTree() {
 
         List<String> hashValueList = calculateHashValue(transactionRecords);
@@ -24,6 +24,7 @@ public class MerkleTree {
         this.root = hashValueList.get(0);
     }
 
+    // Calculate the hash value for each node which is determined by their children
     private List<String> calculateHashValue(List<String> transacrions) {
         List<String> hashValueList = new ArrayList<String>();
         int index = 0;
@@ -34,6 +35,7 @@ public class MerkleTree {
             if (index != transacrions.size()) {
                 right = transacrions.get(index);
             }
+            // Value is the hash value of sum of two children
             String sha2HexValue = getSHA2HexValue(left + right);
             hashValueList.add(sha2HexValue);
             index++;
@@ -41,6 +43,7 @@ public class MerkleTree {
         return hashValueList;
     }
 
+    // Get the SHA-256 value for a string
     public String getSHA2HexValue(String str) {
         byte[] cipher_byte;
         try{
